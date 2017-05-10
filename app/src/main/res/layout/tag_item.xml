@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"/>
+
+    <ImageView
+        android:id="@+id/tag_image"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_size"
+        android:src="@drawable/account_b"
+        android:layout_gravity="center" />
+
+    <TextView
+        android:id="@+id/tag_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Parents"
+        android:layout_gravity="center"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"/>
+
+</LinearLayout>
