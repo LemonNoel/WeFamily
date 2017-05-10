@@ -35,6 +35,17 @@ public class RecordActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Button recordButton = (Button)findViewById(R.id.record_button);
+        recordButton.setBackgroundResource(R.drawable.email_filling_b);
+        recordButton.setEnabled(false);
+        Button familyButton = (Button)findViewById(R.id.family_button);
+        familyButton.setBackgroundResource(R.drawable.account);
+        familyButton.setEnabled(true);
+    }
+
     public void initRecords() {
         for (int i = 0; i < 10; ++i) {
             Records brother = new Records("Brother", "15:09", "周末别忘了哈~", R.drawable.account_b);
@@ -44,21 +55,8 @@ public class RecordActivity extends AppCompatActivity {
         }
     }
 
-    public void StartRecordActivity(View source) {
-        Intent intent = new Intent(this, RecordActivity.class);
-        Button recordButton = (Button)findViewById(R.id.record_button);
-        recordButton.setBackgroundResource(R.drawable.email_b);
-        Button familyButton = (Button)findViewById(R.id.family_button);
-        familyButton.setBackgroundResource(R.drawable.account);
-        startActivity(intent);
-    }
-
     public void StartFamilyActivity(View source) {
         Intent intent = new Intent(this, FamilyActivity.class);
-        Button recordButton = (Button)findViewById(R.id.record_button);
-        recordButton.setBackgroundResource(R.drawable.email);
-        Button familyButton = (Button)findViewById(R.id.family_button);
-        familyButton.setBackgroundResource(R.drawable.account_b);
         startActivity(intent);
     }
 }

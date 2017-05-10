@@ -3,18 +3,49 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/title_views"
-        android:id="@+id/title_views"/>
+    <!--工具条-->
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/title_record"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        android:background="@color/darkGray">
 
+        <TextView
+            android:id="@+id/we_family"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="WeFamily"
+            android:textColor="@color/white"
+            android:textSize="18dp"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:fontFamily="casual"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/edit_button"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/edit"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/activity_horizontal_margin"/>
+    </LinearLayout>
+
+    <!--选择框-->
     <include layout="@layout/bottom_views"
-        android:id="@+id/bottom_lines"
-        android:visibility="visible"/>
+        android:id="@+id/bottom_record"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/chat_record"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/title_views"
+        android:layout_below="@id/title_record"
         android:layout_marginBottom="@dimen/bottom_height"/>
 
 </RelativeLayout>
