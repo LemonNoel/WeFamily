@@ -21,8 +21,8 @@
 
         <View
             android:layout_width="0.5dp"
-            android:layout_height="@dimen/bottom_height"
-            android:background="#222"
+            android:layout_height="36dp"
+            android:background="#DDD"
             android:layout_gravity="center_vertical"/>
 
         <Button
@@ -39,7 +39,7 @@
         android:id="@+id/baseline"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="#111"
+        android:background="#DDD"
         android:layout_above="@id/bottom_views"/>
 
 </RelativeLayout>

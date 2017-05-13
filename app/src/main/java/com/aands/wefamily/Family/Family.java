@@ -3,6 +3,11 @@ package com.aands.wefamily.Family;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.aands.wefamily.R;
+
+import org.litepal.crud.DataSupport;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.sql.Types.NULL;
@@ -13,7 +18,7 @@ import static java.sql.Types.NULL;
  * 设置条件有待判断，包括归属地API，天气查询API，空字符串判断
  */
 
-public class Family {
+public class Family extends DataSupport {
     private int imageId;
     private String name;
     private String number;
@@ -22,10 +27,25 @@ public class Family {
     private String weather;
     private List<Messages> messagesList;
 
+    public Family(String name, String number, String label) {
+        this.imageId = R.drawable.default_portrait;
+        this.name = name;
+        this.number = number;
+        this.label = label;
+        this.location = this.autoLocation(number);
+        this.weather = this.autoWeather(this.location);
+        this.messagesList = new ArrayList<>();
+    }
+
     public Family(int imageId, String name, String number, String label,
                   String location, String weather, List<Messages> messagesList) {
         this.imageId = imageId;
         this.name = name;
+        /*if (number.length() == 13) {
+            this.number = number.substring(2);
+        } else {
+            this.number = number;
+        }*/
         this.number = number;
         this.label = label;
         this.location = location;
@@ -55,6 +75,14 @@ public class Family {
 
     public String getWeather() {
         return weather;
+    }
+
+    public Messages getLastMessage() {
+        if (messagesList.size() > 0) {
+            return this.messagesList.get(0);
+        } else {
+            return null;
+        }
     }
 
     public List<Messages> getMessagesList() {
@@ -106,4 +134,16 @@ public class Family {
     public void addMessage(Messages newMessage) {
         messagesList.add(newMessage);
     }
+
+    //TODO
+    private String autoLocation(String number) {
+        String location = null;
+        return location;
+    }
+    //TODO
+    private String autoWeather(String location) {
+        String weather = null;
+        return  weather;
+    }
+
 }

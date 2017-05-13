@@ -2,7 +2,7 @@
 <resources>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="item_size">60dp</dimen>
+    <dimen name="item_size">62dp</dimen>
     <dimen name="item_photo_size">40dp</dimen>
     <dimen name="text_margin">5dp</dimen>
     <dimen name="general_margin">10dp</dimen>

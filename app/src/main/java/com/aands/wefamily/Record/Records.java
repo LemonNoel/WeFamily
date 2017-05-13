@@ -1,10 +1,12 @@
 package com.aands.wefamily.Record;
 
+import org.litepal.crud.DataSupport;
+
 /**
  * Created by LemonNoel on 2017/5/10.
  */
 
-public class Records {
+public class Records extends DataSupport {
     private int imageId;
     private String name;
     private String lastTime;

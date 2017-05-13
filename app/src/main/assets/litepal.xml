@@ -4,5 +4,9 @@
 
     <version value="1"></version>
 
-    <list></list>
+    <list>
+        <mapping class="com.aands.wefamily.Family.Family"></mapping>
+        <mapping class="com.aands.wefamily.Record.Records"></mapping>
+        <mapping class="com.aands.wefamily.Family.Tag"></mapping>
+    </list>
 </litepal>

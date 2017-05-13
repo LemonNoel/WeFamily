@@ -12,6 +12,8 @@ import android.widget.Button;
 import com.aands.wefamily.R;
 import com.aands.wefamily.Record.RecordActivity;
 
+import org.litepal.crud.DataSupport;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +33,10 @@ public class FamilyActivity  extends AppCompatActivity {
             actionbar.hide();
         }
 
-        initTags(); //初始化标签记录
+        //初始化标签记录
+        initTags();
+
+        //显示标签列表
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.family_tag);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -56,13 +61,6 @@ public class FamilyActivity  extends AppCompatActivity {
     }
 
     public void initTags() {
-        for (int i = 0; i < 1; ++i) {
-            Tag tag1 = new Tag(R.drawable.account_filling_b, "Parents");
-            tagsList.add(tag1);
-            Tag tag2 = new Tag(R.drawable.account_filling, "Grandparents");
-            tagsList.add(tag2);
-            Tag tag3 = new Tag(R.drawable.account_filling_b, "Children");
-            tagsList.add(tag3);
-        }
+        tagsList = DataSupport.findAll(Tag.class);
     }
 }
