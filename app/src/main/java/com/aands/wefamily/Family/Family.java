@@ -135,12 +135,12 @@ public class Family extends DataSupport {
         messagesList.add(newMessage);
     }
 
-    //TODO
+    //TODO 自动从电话获取位置信息
     private String autoLocation(String number) {
         String location = null;
         return location;
     }
-    //TODO
+    //TODO 根据位置获取天气信息
     private String autoWeather(String location) {
         String weather = null;
         return  weather;

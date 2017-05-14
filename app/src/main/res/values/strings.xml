@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">WeFamily</string>
+    <string name="normal">visible</string>
+    <string name="multi_mode">invisible</string>
 </resources>

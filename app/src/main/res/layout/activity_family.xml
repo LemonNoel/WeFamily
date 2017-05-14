@@ -1,41 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!--工具条-->
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/title_family"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_family"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_alignParentTop="true"
-        android:background="@color/darkGray">
-
-        <TextView
-            android:id="@+id/we_family"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="WeFamily"
-            android:textColor="@color/white"
-            android:textSize="18dp"
-            android:layout_margin="@dimen/activity_horizontal_margin"
-            android:fontFamily="casual"
-            android:layout_gravity="center"/>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-
-        <Button
-            android:id="@+id/add_button"
-            android:layout_width="40dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/add"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/activity_horizontal_margin"/>
-    </LinearLayout>
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
     <!--选择框-->
     <include layout="@layout/bottom_views"
@@ -45,7 +21,7 @@
         android:id="@+id/family_tag"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/title_family"
+        android:layout_below="@id/toolbar_family"
         android:layout_marginBottom="@dimen/bottom_height"/>
 
 </RelativeLayout>

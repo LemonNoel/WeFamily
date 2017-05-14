@@ -1,6 +1,8 @@
 package com.aands.wefamily.Record;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -10,18 +12,24 @@ import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aands.wefamily.Family.Family;
 import com.aands.wefamily.Family.FamilyActivity;
+import com.aands.wefamily.Record.MyDialog;
 import com.aands.wefamily.Family.Messages;
 import com.aands.wefamily.Family.Tag;
 import com.aands.wefamily.R;
@@ -35,16 +43,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import static com.aands.wefamily.Constants.RE_READ_CONTACTS;
+import static com.aands.wefamily.Constants.RE_READ_SMS;
+import static com.aands.wefamily.R.style.MyDialog;
+
 public class RecordActivity extends AppCompatActivity {
     private List<Records> recordsList = new ArrayList<>();
     private List<Family> familyList = new ArrayList<>();
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
+    private Context mContext = RecordActivity.this;
 
-    private static final int RE_READ_CONTACTS = 1;
-    private static final int RE_READ_SMS = 2;
+    private Context getContext() {
+        return mContext;
+    }
+
     private static final String[] contactKeyWords = new String[]{
-            "爷", "奶", "爸", "妈", "哥", "姐", "弟", "妹", "王"};
+            "爷", "奶", "爸", "妈", "哥", "姐", "弟", "妹"};
     private static final String[] labelSet = new String[] {
             "祖辈", "父辈", "同辈"};
 
@@ -52,10 +67,8 @@ public class RecordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record);
-        ActionBar actionbar = getSupportActionBar();
-        if (actionbar != null) {
-            actionbar.hide();
-        }
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_records);
+        setSupportActionBar(toolbar);
 
         //安装应用时根据本地电话本初始化联系人列表
         pref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -95,7 +108,40 @@ public class RecordActivity extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.chat_record);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        ChatRecordAdapter adapter = new ChatRecordAdapter(recordsList);
+        final ChatRecordAdapter adapter = new ChatRecordAdapter(recordsList);
+        adapter.setOnItemClickListener(new ChatRecordAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                //TODO 联系人界面写好后把语句2换成注释掉的1
+                //Intent intent = new Intent("android.intent.action.CHAT");
+                //intent.putExtra("name", recordsList.get(position).getName());  //1
+                Intent intent = new Intent(getContext(), FamilyActivity.class); //2
+                startActivity(intent);
+            }
+        });
+        adapter.setOnItemLongClickListener(new ChatRecordAdapter.OnItemLongClickListener() {
+            @Override
+            public void onItemLongClick(View view, final int position) {
+                final MyDialog myDialog = new MyDialog(getContext(), R.style.MyDialog);//设置自定义背景
+                myDialog.setTitle("删除");
+                myDialog.setMsg("确认删除该聊天记录？");
+                myDialog.setOnNegateListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        myDialog.dismiss();
+                    }
+                });
+                myDialog.setOnPositiveListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        recordsList.get(position).delete();
+                        recordsList.remove(position);
+                        adapter.notifyDataSetChanged();
+                        myDialog.dismiss();
+                    }
+                });
+                myDialog.show();
+            }
+        });
         recyclerView.setAdapter(adapter);
     }
 
@@ -103,7 +149,7 @@ public class RecordActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         Button recordButton = (Button)findViewById(R.id.record_button);
-        recordButton.setBackgroundResource(R.drawable.email_filling_b);
+        recordButton.setBackgroundResource(R.drawable.email_filling);
         recordButton.setEnabled(false);
         Button familyButton = (Button)findViewById(R.id.family_button);
         familyButton.setBackgroundResource(R.drawable.account);
@@ -134,6 +180,22 @@ public class RecordActivity extends AppCompatActivity {
                 break;
             default:
         }
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_records, menu);
+        return true;
+    }
+
+    @Override
+    //TODO
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.edit:
+                break;
+            default:
+        }
+        return true;
     }
 
     private void readContacts() {

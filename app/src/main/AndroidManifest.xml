@@ -28,6 +28,18 @@
                 <action android:name="android.intent.action.CONTACTS"/>
             </intent-filter>
         </activity>
+        <activity android:name=".Contact.ChatActivity"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.CHAT"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".Contact.ContactActivity"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.CONTACT_DETAIL"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
