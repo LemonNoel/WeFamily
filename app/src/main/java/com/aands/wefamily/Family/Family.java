@@ -27,6 +27,16 @@ public class Family extends DataSupport {
     private String weather;
     private List<Messages> messagesList;
 
+    public Family() {
+        this.imageId = R.drawable.default_portrait;
+        this.name = "";
+        this.number = "";
+        this.label = "";
+        this.location = "";
+        this.weather = "";
+        this.messagesList = new ArrayList<>();
+    }
+
     public Family(String name, String number, String label) {
         this.imageId = R.drawable.default_portrait;
         this.name = name;

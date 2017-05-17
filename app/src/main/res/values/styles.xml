@@ -21,4 +21,20 @@
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 
+    <style name="MyContactLarge">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/item_size</item>
+        <item name="android:layout_marginTop">@dimen/middle_margin</item>
+        <item name="android:layout_marginLeft">@dimen/middle_margin</item>
+        <item name="android:layout_marginRight">@dimen/middle_margin</item>
+    </style>
+
+    <style name="MyContactSmall">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/bottom_height</item>
+        <item name="android:layout_marginTop">@dimen/middle_margin</item>
+        <item name="android:layout_marginLeft">@dimen/middle_margin</item>
+        <item name="android:layout_marginRight">@dimen/middle_margin</item>
+    </style>
+
 </resources>

@@ -2,4 +2,9 @@
     <string name="app_name">WeFamily</string>
     <string name="normal">visible</string>
     <string name="multi_mode">invisible</string>
+    <string name="default_name">姓名</string>
+    <string name="default_label">标签</string>
+    <string name="default_number">电话</string>
+    <string name="default_weather">天气</string>
+    <string name="default_location">地区</string>
 </resources>

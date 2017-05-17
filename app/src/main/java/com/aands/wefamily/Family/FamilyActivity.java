@@ -69,10 +69,7 @@ public class FamilyActivity  extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add:
-                Toast.makeText(FamilyActivity.this, "Modify code in FamilyActivity", Toast.LENGTH_SHORT);
-                /*Intent intent = new Intent(FamilyActivity.this, ContactActivity.class);
-                intent.putExtra("type", ADD_CONTACT_PERSON);
-                startActivity(intent);*/
+                ContactActivity.actionStart(this, ADD_CONTACT_PERSON, "");
                 break;
             default:
         }
