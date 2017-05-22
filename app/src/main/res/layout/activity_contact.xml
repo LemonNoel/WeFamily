@@ -15,9 +15,17 @@
 
         <Button
             android:id="@+id/return_home"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/item_photo_size"
             android:layout_height="match_parent"
             android:background="@drawable/back"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textSize="22dp"
+            android:textColor="@color/white"
+            android:text="详情"/>
 
         <View
             android:layout_width="0dp"
@@ -58,11 +66,10 @@
 
             <EditText
                 android:id="@+id/contact_name"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/large_margin"
-                android:text="@string/default_name"
                 android:background="@null"
                 android:textSize="20dp"
                 android:editable="true"/>
@@ -92,11 +99,10 @@
 
             <EditText
                 android:id="@+id/contact_label"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/large_margin"
-                android:text="@string/default_label"
                 android:background="@null"
                 android:textSize="16dp"
                 android:editable="true"/>
@@ -122,11 +128,10 @@
 
             <EditText
                 android:id="@+id/contact_number"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/large_margin"
-                android:text="@string/default_number"
                 android:background="@null"
                 android:textSize="16dp"
                 android:editable="true"/>
@@ -152,11 +157,10 @@
 
             <EditText
                 android:id="@+id/contact_location"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/large_margin"
-                android:text="@string/default_location"
                 android:background="@null"
                 android:textSize="16dp"
                 android:editable="true"/>
@@ -182,11 +186,10 @@
 
             <EditText
                 android:id="@+id/contact_weather"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/large_margin"
-                android:text="@string/default_weather"
                 android:background="@null"
                 android:textSize="16dp"
                 android:editable="true"/>

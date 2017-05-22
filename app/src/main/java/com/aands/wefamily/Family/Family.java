@@ -1,14 +1,25 @@
 package com.aands.wefamily.Family;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.aands.wefamily.HttpUtil.HttpUtil;
 import com.aands.wefamily.R;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.litepal.crud.DataSupport;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Exchanger;
+
+import okhttp3.Call;
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 import static java.sql.Types.NULL;
 
@@ -24,6 +35,7 @@ public class Family extends DataSupport {
     private String number;
     private String label;
     private String location;
+    private String city;
     private String weather;
     private List<Messages> messagesList;
 
@@ -42,8 +54,8 @@ public class Family extends DataSupport {
         this.name = name;
         this.number = number;
         this.label = label;
-        this.location = this.autoLocation(number);
-        this.weather = this.autoWeather(this.location);
+        this.autoLocation(number);
+        this.autoWeather(this.location);
         this.messagesList = new ArrayList<>();
     }
 
@@ -145,15 +157,48 @@ public class Family extends DataSupport {
         messagesList.add(newMessage);
     }
 
-    //TODO 自动从电话获取位置信息
-    private String autoLocation(String number) {
-        String location = null;
-        return location;
+    //TODO 调试API
+    private void autoLocation(String number) {
+        String phoneAPI = "http://cx.shouji.360.cn/phonearea.php?number=" + this.number;
+        HttpUtil.sendOkHttpRequest(phoneAPI, new okhttp3.Callback(){
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String responseData = response.body().string();
+                try {
+                    JSONObject loc = new JSONObject(responseData);
+                    String province = loc.getJSONObject("data").getString("province");
+                    city = loc.getJSONObject("data").getString("city");
+                    location = province + " " + city;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
-    //TODO 根据位置获取天气信息
-    private String autoWeather(String location) {
-        String weather = null;
-        return  weather;
+    //TODO 调试API
+    private void autoWeather(String location) {
+        String weatherAPI = "https://free-api.heweather.com/v5/forecast?city=" + city +
+                "&key= 0344a8b2c5854265b23936acffa1515b";
+        HttpUtil.sendOkHttpRequest(weatherAPI, new okhttp3.Callback(){
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String responseData = response.body().string();
+                try {
+                    JSONObject wth = new JSONObject(responseData);
+                    weather = wth.getJSONObject("daily_forecast").getJSONObject("cond")
+                            .getString("txt_d");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
-
 }

@@ -26,8 +26,6 @@ import static com.aands.wefamily.Constants.EDIT_CONTACT_PERSON;
  * Created by LemonNoel on 2017/5/14.
  */
 
-//TODO 联系人界面逻辑
-//已经读取所有联系人信息，可以直接用
 public class ContactActivity extends AppCompatActivity {
     private Family family = null;
     private Context mContext = this;
@@ -58,10 +56,7 @@ public class ContactActivity extends AppCompatActivity {
         int type = intent.getIntExtra("type", ADD_CONTACT_PERSON);
         String contact_name = intent.getStringExtra("name");
 
-        if (type == ADD_CONTACT_PERSON) {
-            family = new Family();
-            delete.setEnabled(false);
-        } else if (type == EDIT_CONTACT_PERSON){
+        if (type == EDIT_CONTACT_PERSON){
             List<Family> tmpFamily = DataSupport.where("name = ?", contact_name).find(Family.class);
             if (tmpFamily.isEmpty()) {
                 family = tmpFamily.get(0);
@@ -73,10 +68,20 @@ public class ContactActivity extends AppCompatActivity {
                 delete.setEnabled(true);
             } else {
                 family = new Family();
+                name.setHint(R.string.default_name);
+                label.setHint(R.string.default_label);
+                number.setHint(R.string.default_number);
+                location.setHint(R.string.default_location);
+                weather.setHint(R.string.default_weather);
                 delete.setEnabled(false);
             }
         } else {
             family = new Family();
+            name.setHint(R.string.default_name);
+            label.setHint(R.string.default_label);
+            number.setHint(R.string.default_number);
+            location.setHint(R.string.default_location);
+            weather.setHint(R.string.default_weather);
             delete.setEnabled(false);
         }
 
@@ -134,8 +139,11 @@ public class ContactActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                family.setName(getContext(), name.getText().toString());
-                save.setEnabled(true);
+                String tmpStr = name.getText().toString();
+                if (!tmpStr.isEmpty()) {
+                    family.setName(getContext(), tmpStr);
+                    save.setEnabled(true);
+                }
             }
         });
         label.addTextChangedListener(new TextWatcher() {
@@ -147,8 +155,11 @@ public class ContactActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                family.setLabel(getContext(), label.getText().toString());
-                save.setEnabled(true);
+                String tmpStr = label.getText().toString();
+                if (!tmpStr.isEmpty()) {
+                    family.setLabel(getContext(), tmpStr);
+                    save.setEnabled(true);
+                }
             }
         });
         number.addTextChangedListener(new TextWatcher() {
@@ -160,8 +171,11 @@ public class ContactActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                family.setNumber(getContext(), number.getText().toString());
-                save.setEnabled(true);
+                String tmpStr = number.getText().toString();
+                if (!tmpStr.isEmpty()) {
+                    family.setNumber(getContext(), tmpStr);
+                    save.setEnabled(true);
+                }
             }
         });
         location.addTextChangedListener(new TextWatcher() {
@@ -173,8 +187,11 @@ public class ContactActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                family.setLocation(getContext(), location.getText().toString());
-                save.setEnabled(true);
+                String tmpStr = location.getText().toString();
+                if (!tmpStr.isEmpty()) {
+                    family.setLocation(getContext(), tmpStr);
+                    save.setEnabled(true);
+                }
             }
         });
         weather.addTextChangedListener(new TextWatcher() {
@@ -186,8 +203,11 @@ public class ContactActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                family.setWeather(getContext(), weather.getText().toString());
-                save.setEnabled(true);
+                String tmpStr = weather.getText().toString();
+                if (!tmpStr.isEmpty()) {
+                    family.setWeather(getContext(), tmpStr);
+                    save.setEnabled(true);
+                }
             }
         });
     }
