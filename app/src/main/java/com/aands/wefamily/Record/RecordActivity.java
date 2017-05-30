@@ -59,7 +59,7 @@ public class RecordActivity extends AppCompatActivity {
     }
 
     private static final String[] contactKeyWords = new String[]{
-            "爷", "奶", "爸", "妈", "哥", "姐", "弟", "妹"};
+            "爷", "奶", "爸", "妈", "哥", "姐", "弟", "妹","王"};
     private static final String[] labelSet = new String[] {
             "祖辈", "父辈", "同辈"};
 
