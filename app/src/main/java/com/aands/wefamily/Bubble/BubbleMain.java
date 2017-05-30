@@ -3,6 +3,7 @@ package com.aands.wefamily.Bubble;
 /**
  * Created by renwendi on 17/5/29.
  */
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.WindowManager;
@@ -15,6 +16,13 @@ public class BubbleMain extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bubble);
+
+        //读取标签数据
+        Intent intent = getIntent();
+        String name = intent.getStringExtra("name");
+
+        //TODO 读取相应标签name的联系人
+
         //初始化操作
         initView();
         initData();

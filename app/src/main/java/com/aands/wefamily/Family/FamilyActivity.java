@@ -39,7 +39,7 @@ public class FamilyActivity  extends AppCompatActivity {
         setContentView(R.layout.activity_family);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_family);
         setSupportActionBar(toolbar);
-        final ListView listView = (ListView) findViewById(R.id.lv);
+        //final ListView listView = (ListView) findViewById(R.id.lv);
         //初始化标签记录
         initTags();
 
@@ -48,9 +48,17 @@ public class FamilyActivity  extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         final FamilyAdapter adapter = new FamilyAdapter(tagsList);
+        adapter.setOnItemClickListener(new FamilyAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent = new Intent("android.intent.action.CONTACT_BUBBLE");
+                intent.putExtra("name", tagsList.get(position).getName());
+                startActivity(intent);
+            }
+        });
         recyclerView.setAdapter(adapter);
 
-        TextView textView = (TextView) findViewById(R.id.show_letter_in_center);
+        /*TextView textView = (TextView) findViewById(R.id.show_letter_in_center);
         final LetterIndexView letterIndexView = (LetterIndexView) findViewById(R.id.letter_index_view);
         letterIndexView.setTextViewDialog(textView);
         letterIndexView.setUpdateListView(new LetterIndexView.UpdateListView() {
@@ -72,7 +80,7 @@ public class FamilyActivity  extends AppCompatActivity {
                 int sectionForPosition = adapter.getSectionForPosition(firstVisibleItem);
                 letterIndexView.updateLetterIndexView(sectionForPosition);
             }
-        });
+        });*/
     }
 
     @Override
@@ -107,9 +115,9 @@ public class FamilyActivity  extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void initTags() {
+   public void initTags() {
         tagsList = DataSupport.findAll(Tag.class);
-        for(Tag tagName : tagsList)
+        /*for(Tag tagName : tagsList)
         {
             String convert = ChineseToPinyinHelper.getInstance().getPinyin(tagName.getName()).toUpperCase();
             tagName.setPinyin(convert);
@@ -132,6 +140,6 @@ public class FamilyActivity  extends AppCompatActivity {
                     return lhs.getFirstLetter().compareTo(rhs.getFirstLetter());
                 }
             }
-        });
+        });*/
     }
 }

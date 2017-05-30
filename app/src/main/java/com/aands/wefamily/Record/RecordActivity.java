@@ -59,7 +59,7 @@ public class RecordActivity extends AppCompatActivity {
     }
 
     private static final String[] contactKeyWords = new String[]{
-            "爷", "奶", "爸", "妈", "哥", "姐", "弟", "妹","王"};
+            "爷", "奶", "爸", "妈", "哥", "姐", "弟", "妹"};
     private static final String[] labelSet = new String[] {
             "祖辈", "父辈", "同辈"};
 
@@ -112,7 +112,7 @@ public class RecordActivity extends AppCompatActivity {
         adapter.setOnItemClickListener(new ChatRecordAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                //TODO 联系人界面写好后把语句2换成注释掉的1
+                //TODO 对话界面写好后把语句2换成注释掉的1
                 //Intent intent = new Intent("android.intent.action.CHAT");
                 //intent.putExtra("name", recordsList.get(position).getName());  //1
                 Intent intent = new Intent(getContext(), FamilyActivity.class); //2

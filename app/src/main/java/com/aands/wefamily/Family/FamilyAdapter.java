@@ -19,6 +19,17 @@ import java.util.List;
 public class FamilyAdapter extends RecyclerView.Adapter<FamilyAdapter.ViewHolder> {
     private List<Tag> mTagList;
 
+    //点击内部接口
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
+    private OnItemClickListener mOnItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener mOnItemClickListener) {
+        this.mOnItemClickListener = mOnItemClickListener;
+    }
+
     static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView tagImage;
         TextView tagName;
@@ -37,20 +48,30 @@ public class FamilyAdapter extends RecyclerView.Adapter<FamilyAdapter.ViewHolder
     }
 
     @Override
-    public FamilyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.tag_item, parent, false);
-        FamilyAdapter.ViewHolder holder = new FamilyAdapter.ViewHolder(view);
+        ViewHolder holder = new ViewHolder(view);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(FamilyAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         Tag tag = mTagList.get(position);
         holder.tagImage.setImageResource(tag.getImageId());
         holder.tagName.setText(tag.getName());
 
-        //获得当前position是属于哪个分组
+        if (mOnItemClickListener != null) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = holder.getLayoutPosition();
+                    mOnItemClickListener.onItemClick(holder.itemView, position);
+                }
+            });
+        }
+
+        /*//获得当前position是属于哪个分组
         int sectionForPosition = getSectionForPosition(position);
         //获得该分组第一项的position
         int positionForSection = getPositionForSection(sectionForPosition);
@@ -61,14 +82,15 @@ public class FamilyAdapter extends RecyclerView.Adapter<FamilyAdapter.ViewHolder
             holder.showLetter.setText(tag.getFirstLetter());
         } else {
             holder.showLetter.setVisibility(View.GONE);
-        }
+        }*/
     }
 
     @Override
     public int getItemCount() {
         return mTagList.size();
     }
-    public Object getItem(int position) {
+
+   /* public Object getItem(int position) {
         return mTagList.get(position);
     }
 
@@ -90,6 +112,6 @@ public class FamilyAdapter extends RecyclerView.Adapter<FamilyAdapter.ViewHolder
     //传入一个position，获得该position所在的分组
     public int getSectionForPosition(int position) {
         return mTagList.get(position).getFirstLetter().charAt(0);
-    }
+    }*/
 }
 

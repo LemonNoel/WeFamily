@@ -42,6 +42,12 @@
                 <action android:name="android.intent.action.CONTACT_DETAIL"/>
             </intent-filter>
         </activity>
+        <activity android:name=".Bubble.BubbleMain"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.CONTACT_BUBBLE"/>
+            </intent-filter>
+        </activity>
         <provider
             android:authorities="com.aands.wefamily.fileprovider"
             android:name="android.support.v4.content.FileProvider"
