@@ -11,6 +11,8 @@ import org.litepal.crud.DataSupport;
 public class Tag extends DataSupport{
     private int imageId;
     private String name;
+    private String pinyin;
+    private String firstLetter;
 
     public Tag(String name) {
         this.imageId = R.drawable.default_portrait;
@@ -37,4 +39,14 @@ public class Tag extends DataSupport{
     public void setName(String name) {
         this.name = name;
     }
+    public String getFirstLetter() {
+        return firstLetter;
+    }
+    public void setFirstLetter(String firstLetter) {
+        this.firstLetter = firstLetter;
+    }
+    public String getPinyin() {
+        return pinyin;
+    }
+    public void setPinyin(String pinyin) {this.pinyin = pinyin;}
 }

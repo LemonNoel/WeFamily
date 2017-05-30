@@ -17,11 +17,41 @@
     <include layout="@layout/bottom_views"
         android:id="@+id/bottom_family"/>
 
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/family_tag"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar_family"
+        android:layout_toLeftOf="@+id/letter_index_view"
         android:layout_marginBottom="@dimen/bottom_height"/>
+
+    <ListView
+        android:id="@+id/lv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="12dp"
+        android:paddingRight="36dp"
+        android:layout_alignBottom="@+id/family_tag"
+        android:layout_below="@+id/toolbar_family" />
+
+    <com.aands.wefamily.Family.LetterIndexView
+        android:id="@id/letter_index_view"
+        android:layout_width="30dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@id/family_tag"
+        android:layout_below="@id/toolbar_family" />
+
+    <TextView
+        android:id="@+id/show_letter_in_center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/white_shape_8"
+        android:gravity="center"
+        android:visibility="gone"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

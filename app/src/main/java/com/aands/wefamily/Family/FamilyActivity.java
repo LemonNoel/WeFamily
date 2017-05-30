@@ -11,17 +11,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
-
+import android.widget.AbsListView;
 import com.aands.wefamily.Contact.ContactActivity;
 import com.aands.wefamily.R;
 import com.aands.wefamily.Record.RecordActivity;
 
 import org.litepal.crud.DataSupport;
-
+import java.util.Collections;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Comparator;
 import static com.aands.wefamily.Constants.ADD_CONTACT_PERSON;
 
 /**
@@ -37,7 +39,7 @@ public class FamilyActivity  extends AppCompatActivity {
         setContentView(R.layout.activity_family);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_family);
         setSupportActionBar(toolbar);
-
+        final ListView listView = (ListView) findViewById(R.id.lv);
         //初始化标签记录
         initTags();
 
@@ -45,8 +47,32 @@ public class FamilyActivity  extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.family_tag);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        FamilyAdapter adapter = new FamilyAdapter(tagsList);
+        final FamilyAdapter adapter = new FamilyAdapter(tagsList);
         recyclerView.setAdapter(adapter);
+
+        TextView textView = (TextView) findViewById(R.id.show_letter_in_center);
+        final LetterIndexView letterIndexView = (LetterIndexView) findViewById(R.id.letter_index_view);
+        letterIndexView.setTextViewDialog(textView);
+        letterIndexView.setUpdateListView(new LetterIndexView.UpdateListView() {
+            @Override
+            public void updateListView(String currentChar) {
+                int positionForSection = adapter.getPositionForSection(currentChar.charAt(0));
+                listView.setSelection(positionForSection);
+            }
+        });
+
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                int sectionForPosition = adapter.getSectionForPosition(firstVisibleItem);
+                letterIndexView.updateLetterIndexView(sectionForPosition);
+            }
+        });
     }
 
     @Override
@@ -83,5 +109,29 @@ public class FamilyActivity  extends AppCompatActivity {
 
     public void initTags() {
         tagsList = DataSupport.findAll(Tag.class);
+        for(Tag tagName : tagsList)
+        {
+            String convert = ChineseToPinyinHelper.getInstance().getPinyin(tagName.getName()).toUpperCase();
+            tagName.setPinyin(convert);
+            String substring = convert.substring(0, 1);
+            if (substring.matches("[A-Z]")) {
+                tagName.setFirstLetter(substring);
+            }else{
+                tagName.setFirstLetter("#");
+            }
+        }
+
+        Collections.sort(tagsList, new Comparator<Tag>() {
+            @Override
+            public int compare(Tag lhs, Tag rhs) {
+                if (lhs.getFirstLetter().contains("#")) {
+                    return 1;
+                } else if (rhs.getFirstLetter().contains("#")) {
+                    return -1;
+                }else{
+                    return lhs.getFirstLetter().compareTo(rhs.getFirstLetter());
+                }
+            }
+        });
     }
 }
