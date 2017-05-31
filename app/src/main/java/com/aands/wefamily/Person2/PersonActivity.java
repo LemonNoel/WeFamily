@@ -48,7 +48,7 @@ public class PersonActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_person);
+        setContentView(R.layout.activity_person2);
         /*test = (Button) findViewById(R.id.button_person);
         test.setOnClickListener(new View.OnClickListener(){
             @Override
