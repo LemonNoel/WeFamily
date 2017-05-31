@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aands.wefamily.Contact.ContactActivity;
@@ -50,6 +51,7 @@ public class ChatActivity extends AppCompatActivity {
     private EditText inputText;
     private Button concernMsg, send, back;
     private ImageView detail;
+    private TextView chatName;
     private RecyclerView msgRecyclerView;
     private ChatAdapter adapter;
     private List<Messages> mMessages;
@@ -70,16 +72,20 @@ public class ChatActivity extends AppCompatActivity {
         List<Family> tmpList = DataSupport.where("name = ?", name).find(Family.class);
         if (!tmpList.isEmpty()) {
             familyItem = tmpList.get(0);
+            mMessages = familyItem.getMessagesList();
+            Log.e("size", "SIZE" + mMessages.size());
 
             inputText = (EditText) findViewById(R.id.input_text);
             concernMsg = (Button) findViewById(R.id.concern_msg);
             back = (Button) findViewById(R.id.return_home);
             send = (Button) findViewById(R.id.send);
             detail = (ImageView) findViewById(R.id.detail);
+            chatName = (TextView) findViewById(R.id.chat_name);
+            chatName.setText(familyItem.getName());
             msgRecyclerView = (RecyclerView) findViewById(R.id.msg_recycler_view);
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);
             msgRecyclerView.setLayoutManager(layoutManager);
-            adapter = new ChatAdapter(familyItem.getMessagesList());
+            adapter = new ChatAdapter(mMessages);
             msgRecyclerView.setAdapter(adapter);
 
             concernMsg.setOnClickListener(new View.OnClickListener() {

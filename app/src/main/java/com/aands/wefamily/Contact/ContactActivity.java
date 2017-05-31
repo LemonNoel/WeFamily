@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.aands.wefamily.Chat.ChatActivity;
 import com.aands.wefamily.Family.Family;
 import com.aands.wefamily.R;
 import com.aands.wefamily.Record.MyDialog;
@@ -48,7 +49,7 @@ import static com.aands.wefamily.Constants.TAKE_PHOTO;
 public class ContactActivity extends AppCompatActivity {
     private Family family = null;
     private Context mContext = this;
-    private Button save, delete, back;
+    private Button save, delete, back, send;
     private ImageView photo;
     private EditText name, label, number, location, weather;
 
@@ -70,6 +71,7 @@ public class ContactActivity extends AppCompatActivity {
         back = (Button) findViewById(R.id.return_home);
         save = (Button) findViewById(R.id.save_contact);
         delete = (Button) findViewById(R.id.delete_contact);
+        send = (Button) findViewById(R.id.send_contact);
         photo = (ImageView) findViewById(R.id.contact_photo);
         name = (EditText) findViewById(R.id.contact_name);
         label = (EditText) findViewById(R.id.contact_label);
@@ -84,6 +86,7 @@ public class ContactActivity extends AppCompatActivity {
         if (type == EDIT_CONTACT_PERSON){
             List<Family> tmpFamily = DataSupport.where("name = ?", contact_name).find(Family.class);
             save.setEnabled(true);
+            send.setEnabled(true);
             if (!tmpFamily.isEmpty()) {
                 family = tmpFamily.get(0);
                 name.setText(family.getName());
@@ -161,6 +164,12 @@ public class ContactActivity extends AppCompatActivity {
                     });
                     myDialog.show();
                 }
+            }
+        });
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ChatActivity.actionStart(getContext(), family.getName());
             }
         });
         photo.setOnClickListener(new View.OnClickListener() {

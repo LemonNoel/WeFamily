@@ -204,13 +204,23 @@
         android:layout_weight="1"/>
 
     <Button
+        android:id="@+id/send_contact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="发消息"
+        android:textColor="@color/colorPrimary"
+        android:background="@drawable/green_shape_8"
+        android:layout_margin="@dimen/middle_margin"
+        android:enabled="false"/>
+
+    <Button
         android:id="@+id/delete_contact"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="删除"
         android:textColor="@color/red"
         android:background="@drawable/red_shape_8"
-        android:layout_margin="@dimen/large_margin"
+        android:layout_margin="@dimen/middle_margin"
         android:enabled="false"/>
 
 

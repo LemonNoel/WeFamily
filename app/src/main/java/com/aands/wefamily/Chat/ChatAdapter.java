@@ -60,6 +60,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
             holder.rightLayout.setVisibility(View.VISIBLE);
             holder.rightMsg.setText(msg.getContent());
         }
+        holder.msgTime.setText(msg.getTime());
     }
 
     @Override
