@@ -65,6 +65,14 @@
                 <action android:name="android.intent.action.CONTACT_PERSON"/>
             </intent-filter>
         </activity>
+
+        <activity android:name=".Person2.PersonActivity"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.CONTACT_PERSON2"/>
+            </intent-filter>
+        </activity>
+
         <receiver android:name=".Chat.ReceiverBC">
             <intent-filter android:priority="999">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED"/>

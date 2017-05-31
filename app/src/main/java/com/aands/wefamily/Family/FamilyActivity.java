@@ -35,6 +35,22 @@ public class FamilyActivity  extends AppCompatActivity {
         return this;
     }
 
+    private void toNewActivity(int position){
+        Intent i = null;
+        switch (position){
+            case 0:
+                i = new Intent(FamilyActivity.this,PersonActivity.class);
+                break;
+            case 1:
+                i = new Intent(FamilyActivity.this, com.aands.wefamily.Person2.PersonActivity.class);
+                break;
+            case 2:
+                i = new Intent(FamilyActivity.this, com.aands.wefamily.Person2.PersonActivity.class);
+                break;
+        }
+        startActivity(i);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,9 +74,10 @@ public class FamilyActivity  extends AppCompatActivity {
         adapter.setOnItemClickListener(new FamilyAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(FamilyActivity.this, PersonActivity.class);
-                intent.putExtra("name", tagsList.get(position).getName());
-                startActivity(intent);
+                //Intent intent = new Intent(FamilyActivity.this, PersonActivity.class);
+                //intent.putExtra("name", tagsList.get(position).getName());
+                //startActivity(intent);
+                toNewActivity(position);
             }
         });
         recyclerView.setAdapter(adapter);
