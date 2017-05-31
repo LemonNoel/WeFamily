@@ -113,6 +113,7 @@ public class RecordActivity extends AppCompatActivity {
         adapter.setOnItemClickListener(new ChatRecordAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                Log.e("name", recordsList.get(position).getName());
                 ChatActivity.actionStart(getContext(), recordsList.get(position).getName());
             }
         });

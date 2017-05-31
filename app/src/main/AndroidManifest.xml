@@ -46,10 +46,18 @@
                 <action android:name="com.aands.wefamily.contact.CONTACT_DETAIL"/>
             </intent-filter>
         </activity>
-        <activity android:name=".Bubble.BubbleMain"
+
+        <activity android:name=".Bubble.BubbleActivity"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="com.aands.wefamily.bubble.CONTACT_BUBBLE"/>
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".Person.PersonActivity"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.CONTACT_PERSON"/>
             </intent-filter>
         </activity>
         <provider
@@ -64,6 +72,3 @@
     </application>
 
 </manifest>
-
-
-

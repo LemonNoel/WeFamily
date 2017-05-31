@@ -3,7 +3,6 @@ package com.aands.wefamily.Family;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,21 +11,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.AbsListView;
 
-import com.aands.wefamily.Bubble.BubbleMain;
 import com.aands.wefamily.Contact.ContactActivity;
+import com.aands.wefamily.Person.PersonActivity;
 import com.aands.wefamily.R;
 import com.aands.wefamily.Record.RecordActivity;
 
 import org.litepal.crud.DataSupport;
-import java.util.Collections;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Comparator;
+
 import static com.aands.wefamily.Constants.ADD_CONTACT_PERSON;
 
 /**
@@ -54,17 +49,37 @@ public class FamilyActivity  extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.family_tag);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
+
+
+
+
         final FamilyAdapter adapter = new FamilyAdapter(tagsList);
+        //recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(new FamilyAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                //BubbleMain.actionStart(getContext() ,tagsList.get(position).getName());
-                RecordActivity.actionStart(getContext());
+                Intent intent = new Intent(FamilyActivity.this, PersonActivity.class);
+                intent.putExtra("name", tagsList.get(position).getName());
+                startActivity(intent);
             }
         });
         recyclerView.setAdapter(adapter);
 
-        /*TextView textView = (TextView) findViewById(R.id.show_letter_in_center);
+
+        /*Button test = (Button)findViewById(R.id.button);
+
+        test.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(FamilyActivity.this, PersonActivity.class);
+                startActivity(intent);
+                finish();//停止当前的Activity,如果不写,则按返回键会跳转回原来的Activity
+            }
+
+        });
+        TextView textView = (TextView) findViewById(R.id.show_letter_in_center);
         final LetterIndexView letterIndexView = (LetterIndexView) findViewById(R.id.letter_index_view);
         letterIndexView.setTextViewDialog(textView);
         letterIndexView.setUpdateListView(new LetterIndexView.UpdateListView() {
