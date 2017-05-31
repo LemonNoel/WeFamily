@@ -1,15 +1,17 @@
 package com.aands.wefamily.Bubble;
 
-/**
- * Created by renwendi on 17/5/29.
- */
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.WindowManager;
+
 import com.aands.wefamily.R;
 
-public class BubbleMain extends FragmentActivity {
+/**
+ * Created by renwendi on 17/5/31.
+ */
+
+public class BubbleActivity extends FragmentActivity {
     private FloatBubbleView mDWView;
 
     @Override
@@ -18,8 +20,8 @@ public class BubbleMain extends FragmentActivity {
         setContentView(R.layout.activity_bubble);
 
         //读取标签数据
-        Intent intent = getIntent();
-        String name = intent.getStringExtra("name");
+        //Intent intent = getIntent();
+        //String name = intent.getStringExtra("name");
 
         //TODO 读取相应标签name的联系人
 
