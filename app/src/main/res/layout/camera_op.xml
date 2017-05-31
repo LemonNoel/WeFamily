@@ -5,42 +5,32 @@
     android:layout_width="match_parent"
     android:layout_height="136dp"
     android:background="@drawable/white_shape_8"
-    android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/callback_dialog_tv_msg"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:textColor="@color/colorText"
-        android:textSize="14sp"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="1dp"
-        android:layout_marginRight="1dp"
-        android:background="#EDEDEF"/>
+    android:orientation="horizontal"
+    android:padding="@dimen/small_margin">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/large_margin"
         android:orientation="horizontal">
-        <View
+
+        <ImageView
+            android:id="@+id/camera"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
-
-        <TextView
-            android:id="@+id/callback_dialog_tv_positive"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
-            android:padding="12dp"
-            android:text="取消"
-            android:textColor="@color/darkGray"
-            android:textSize="15sp"/>
-    </LinearLayout>
+            android:src="@drawable/photo_camera"
+            android:layout_gravity="center"
+            android:padding="20dp"/>
 
+        <ImageView
+            android:id="@+id/my_album"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/album_48px"
+            android:layout_gravity="center"
+            android:padding="17dp"/>
+
+    </LinearLayout>
 </LinearLayout>

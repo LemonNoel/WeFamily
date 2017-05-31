@@ -1,5 +1,6 @@
 package com.aands.wefamily.Family;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -15,6 +16,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AbsListView;
+
+import com.aands.wefamily.Bubble.BubbleMain;
 import com.aands.wefamily.Contact.ContactActivity;
 import com.aands.wefamily.R;
 import com.aands.wefamily.Record.RecordActivity;
@@ -32,6 +35,10 @@ import static com.aands.wefamily.Constants.ADD_CONTACT_PERSON;
 
 public class FamilyActivity  extends AppCompatActivity {
     private List<Tag> tagsList = new ArrayList<>();
+
+    Context getContext() {
+        return this;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +58,8 @@ public class FamilyActivity  extends AppCompatActivity {
         adapter.setOnItemClickListener(new FamilyAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent("android.intent.action.CONTACT_BUBBLE");
-                intent.putExtra("name", tagsList.get(position).getName());
-                startActivity(intent);
+                //BubbleMain.actionStart(getContext() ,tagsList.get(position).getName());
+                RecordActivity.actionStart(getContext());
             }
         });
         recyclerView.setAdapter(adapter);
@@ -141,5 +147,10 @@ public class FamilyActivity  extends AppCompatActivity {
                 }
             }
         });*/
+    }
+
+    public static void actionStart(Context context) {
+        Intent intent = new Intent(context, FamilyActivity.class);
+        context.startActivity(intent);
     }
 }

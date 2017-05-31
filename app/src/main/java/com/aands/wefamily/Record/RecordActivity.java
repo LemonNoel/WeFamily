@@ -191,8 +191,8 @@ public class RecordActivity extends AppCompatActivity {
     //TODO
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.edit:
-                break;
+            /*case R.id.edit:
+                break;*/
             default:
         }
         return true;
@@ -300,6 +300,11 @@ public class RecordActivity extends AppCompatActivity {
     public void StartFamilyActivity(View source) {
         Intent intent = new Intent(this, FamilyActivity.class);
         startActivity(intent);
+    }
+
+    public static void actionStart(Context context) {
+        Intent intent = new Intent(context, RecordActivity.class);
+        context.startActivity(intent);
     }
 }
 

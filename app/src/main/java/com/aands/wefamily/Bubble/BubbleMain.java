@@ -3,13 +3,15 @@ package com.aands.wefamily.Bubble;
 /**
  * Created by renwendi on 17/5/29.
  */
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 import com.aands.wefamily.R;
 
-public class BubbleMain extends FragmentActivity {
+public class BubbleMain extends AppCompatActivity {
     private FloatBubbleView mDWView;
 
     @Override
@@ -67,5 +69,11 @@ public class BubbleMain extends FragmentActivity {
     protected void onDestroy() {
         super.onDestroy();
         mDWView.onDrawDestroy();
+    }
+
+    public static void actionStart(Context context, String name) {
+        Intent intent = new Intent(context, BubbleMain.class);
+        intent.putExtra("name", name);
+        context.startActivity(intent);
     }
 }

@@ -127,13 +127,20 @@ public class Family extends DataSupport {
         }
     }
 
-    public void setNumber(Context context, String number) {
+    public boolean setNumber(Context context, String number) {
         if (number.length() == 11) {
             this.number = number;
+            autoLocation(this.number);
+            autoWeather(location);
+            return true;
         } else if (number.length() == 13 && number.substring(0, 3).equals("+86")) {
             this.number = number.substring(3);
+            autoLocation(number);
+            autoWeather(location);
+            return true;
         } else {
-            Toast.makeText(context, "Invalid Number", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "Invalid Number", Toast.LENGTH_SHORT).show();
+            return false;
         }
     }
 
@@ -142,11 +149,16 @@ public class Family extends DataSupport {
     }
 
     public void setLocation(Context context, String location) {
-        this.location = location;
+        if (!location.isEmpty()) {
+            this.location = location;
+            autoWeather(this.location);
+        }
     }
 
     public void setWeather(Context context, String weather) {
-        this.weather = weather;
+        if (!location.isEmpty()) {
+            this.weather = weather;
+        }
     }
 
     public void setMessagesList(List<Messages> messagesList) {
