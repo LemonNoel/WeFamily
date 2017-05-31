@@ -1,27 +1,17 @@
 package com.aands.wefamily.Chat;
 
-//reference http://blog.csdn.net/duchunchao/article/details/6093776
-
-import android.app.Activity;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.telephony.PhoneNumberUtils;
-import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aands.wefamily.Contact.ContactActivity;
@@ -33,12 +23,10 @@ import com.aands.wefamily.Record.RecordActivity;
 import org.litepal.crud.DataSupport;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import static android.Manifest.permission_group.SMS;
 import static com.aands.wefamily.Constants.EDIT_CONTACT_PERSON;
 
 /**
@@ -49,15 +37,11 @@ import static com.aands.wefamily.Constants.EDIT_CONTACT_PERSON;
 public class ChatActivity extends AppCompatActivity {
     private Family familyItem = new Family();
     private EditText inputText;
+    //private EditText contentEditText;
     private Button concernMsg, send, back;
     private ImageView detail;
-    private TextView chatName;
     private RecyclerView msgRecyclerView;
     private ChatAdapter adapter;
-    private List<Messages> mMessages;
-
-    String SENT_SMS_ACTION="SENT_SMS_ACTION";
-    String DELIVERED_SMS_ACTION="DELIVERED_SMS_ACTION";
 
     private Context getContext() {
         return this;
@@ -70,30 +54,60 @@ public class ChatActivity extends AppCompatActivity {
         Intent intent = getIntent();
         final String name = intent.getStringExtra("name");
         List<Family> tmpList = DataSupport.where("name = ?", name).find(Family.class);
-        if (!tmpList.isEmpty()) {
+        if (tmpList.size() > 0) {
             familyItem = tmpList.get(0);
-            mMessages = familyItem.getMessagesList();
-            Log.e("size", "SIZE" + mMessages.size());
 
             inputText = (EditText) findViewById(R.id.input_text);
             concernMsg = (Button) findViewById(R.id.concern_msg);
             back = (Button) findViewById(R.id.return_home);
             send = (Button) findViewById(R.id.send);
             detail = (ImageView) findViewById(R.id.detail);
-            chatName = (TextView) findViewById(R.id.chat_name);
-            chatName.setText(familyItem.getName());
             msgRecyclerView = (RecyclerView) findViewById(R.id.msg_recycler_view);
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);
             msgRecyclerView.setLayoutManager(layoutManager);
-            adapter = new ChatAdapter(mMessages);
+            adapter = new ChatAdapter(familyItem.getMessagesList());
             msgRecyclerView.setAdapter(adapter);
 
             concernMsg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                   // TODO 添加关怀短信
-                }
-            });
+                    String text=familyItem.getWeather();
+                        if (!familyItem.getWeather().equals("")) {
+                            //增加关怀短信内容消息,在输入框加入关怀短信
+
+                            /*int temprature_today = 0;//今天的最低温度
+                            int temprature_tomorrow = 0;//明天的最低温度
+
+                            int code_tomorrow = 100;//明天的天气代码
+                            CharSequence text = "晴,";//明天的天气状况描述
+                            CharSequence care1 = "";//温度变化内容
+                            CharSequence care = "";//详细关怀内容
+                            if(temprature_today-temprature_tomorrow>=3){
+                                care1="气温降低明显，";
+                            }*/
+                            CharSequence care = "";
+                            //根据天气状况代码定制关怀短信
+                            if(text.equals("冷")) {//冷
+                                care = "天气较冷，记得及时增添衣物哦！";
+                            }else if(text.equals("热")){//热
+                                care = "天气较热，可适当减少衣物哦！";
+                            }else if(text.equals("中雨")){//雨雪天气
+                                care = "记得出门带上雨伞哦！";
+                            }else if(text.equals("霾")){//雾霾及沙尘暴天气
+                                care = "能见度低，雾霾沙尘天气记得出门戴上口罩哦！";
+                            }else if(text.equals("飓风")){//大风天气及沙尘暴
+                                care = "剧烈天气注意安全，尽量少出门哦！";
+                            }else{
+                                care = "关注天气变化，请注意身体哦！";
+                            }
+
+                            inputText.append("亲爱的"+familyItem.getName() + ", 明天的天气状况为"+ text + care);
+                            //关怀短信样板：亲爱的XXX（标签），明天的天气状况为XX（天气状况描述：如晴），XXXXXXX（关怀短信内容：如关注天气变化，请注意身体哦！）
+                        }else {
+                            Toast.makeText(ChatActivity.this, "天气信息获取错误！", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
 
             detail.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -125,39 +139,9 @@ public class ChatActivity extends AppCompatActivity {
                         adapter.notifyItemInserted(familyItem.getMessagesList().size() - 1);
                         msgRecyclerView.scrollToPosition(familyItem.getMessagesList().size() - 1);
                         inputText.setText("");
-
-                        //TODO
-                        //doSendSMSTo(familyItem.getNumber(), content);
-                        if (validate(familyItem.getNumber(), content)) {
-                            sendSMS(familyItem.getNumber(), content);
-                        } else {
-                            Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
-                        }
-
                     }
                 }
             });
-
-            String SENT_SMS_ACTION = "SENT_SMS_ACTION";
-            Intent sentIntent = new Intent(SENT_SMS_ACTION);
-            PendingIntent sentPI = PendingIntent.getBroadcast(getContext(), 0, sentIntent, 0);
-
-            getContext().registerReceiver(new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
-                    switch (getResultCode()) {
-                        case Activity.RESULT_OK:
-                            Toast.makeText(context, "发送成功", Toast.LENGTH_SHORT).show();
-                            break;
-                        case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                            break;
-                        case SmsManager.RESULT_ERROR_RADIO_OFF:
-                            break;
-                        case SmsManager.RESULT_ERROR_NULL_PDU:
-                            break;
-                    }
-                }
-            }, new IntentFilter(SENT_SMS_ACTION));
 
         } else {
             Toast.makeText(this, "Runtime Error", Toast.LENGTH_SHORT);
@@ -165,77 +149,6 @@ public class ChatActivity extends AppCompatActivity {
             finish();
         }
     }
-
-    public void doSendSMSTo(String phoneNumber, String message) {
-        if (PhoneNumberUtils.isGlobalPhoneNumber(phoneNumber)) {
-            Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:"+phoneNumber));
-            intent.putExtra("sms_body", message);
-            startActivity(intent);
-        }
-    }
-
-    private void sendSMS(String phoneNumber, String message) {
-
-        //create the sentIntent parameter
-        Intent sentIntent = new Intent(SENT_SMS_ACTION);
-        PendingIntent sentPI = PendingIntent.getBroadcast(this, 0, sentIntent,
-                0);
-        // create the deliverIntent parameter
-        Intent deliverIntent = new Intent(DELIVERED_SMS_ACTION);
-        PendingIntent deliverPI = PendingIntent.getBroadcast(this, 0,
-                deliverIntent, 0);
-
-        SmsManager sms = SmsManager.getDefault();
-        if (message.length() > 70) {
-            List<String> msgs = sms.divideMessage(message);
-            for (String msg : msgs) {
-                sms.sendTextMessage(phoneNumber, null, msg, sentPI, deliverPI);
-            }
-        } else {
-            sms.sendTextMessage(phoneNumber, null, message, sentPI, deliverPI);
-        }
-
-        //register the Broadcast Receivers
-        registerReceiver(new BroadcastReceiver(){
-            @Override
-            public void onReceive(Context _context,Intent _intent)
-            {
-                switch(getResultCode()){
-                    case Activity.RESULT_OK:
-                        Toast.makeText(getBaseContext(), "SMS sent success actions",
-                                Toast.LENGTH_SHORT).show();
-                        break;
-                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                        break;
-                    case SmsManager.RESULT_ERROR_RADIO_OFF:
-                        break;
-                    case SmsManager.RESULT_ERROR_NULL_PDU:
-                        break;
-                }
-            }
-        }, new IntentFilter(SENT_SMS_ACTION));
-        registerReceiver(new BroadcastReceiver(){
-            @Override
-            public void onReceive(Context _context,Intent _intent) {
-                Toast.makeText(getBaseContext(), "SMS delivered actions",
-                        Toast.LENGTH_SHORT).show();
-            }
-        }, new IntentFilter(DELIVERED_SMS_ACTION));
-    }
-
-    public boolean validate(String telNo, String content){
-
-        if((null==telNo)||("".equals(telNo.trim()))){
-            Toast.makeText(this, "please input the telephone No.!",Toast.LENGTH_LONG).show();
-            return false;
-        }
-        if((null==content)||("".equals(content.trim()))){
-            Toast.makeText(this, "please input the message content!",Toast.LENGTH_LONG).show();
-            return false;
-        }
-        return true;
-    }
-
 
     public static void actionStart(Context context, String name) {
         Intent intent = new Intent(context, ChatActivity.class);

@@ -1,7 +1,6 @@
 package com.aands.wefamily.Family;
 
 import android.content.Context;
-import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -32,14 +31,22 @@ import static java.sql.Types.NULL;
 
 public class Family extends DataSupport {
     private int imageId;
-    private Uri imageNew;
     private String name;
     private String number;
     private String label;
     private String location;
     private String city;
     private String weather;
+    private String weathercode;
     private List<Messages> messagesList;
+
+    /*private class weather{
+        public int temperature_today;//今日气温
+        public int temperature_tomorrow;//明日气温
+        public String txt;//天气状况描述
+        public int code;//天气状况代码
+    }*/
+
 
     public Family() {
         this.imageId = R.drawable.default_portrait;
@@ -48,7 +55,7 @@ public class Family extends DataSupport {
         this.label = "";
         this.location = "";
         this.weather = "";
-        this.imageNew = null;
+        this.weathercode = "";
         this.messagesList = new ArrayList<>();
     }
 
@@ -57,7 +64,6 @@ public class Family extends DataSupport {
         this.name = name;
         this.number = number;
         this.label = label;
-        this.imageNew = null;
         this.autoLocation(number);
         this.autoWeather(this.location);
         this.messagesList = new ArrayList<>();
@@ -72,7 +78,6 @@ public class Family extends DataSupport {
         } else {
             this.number = number;
         }*/
-        this.imageNew = null;
         this.number = number;
         this.label = label;
         this.location = location;
@@ -82,10 +87,6 @@ public class Family extends DataSupport {
 
     public int getImageId() {
         return imageId;
-    }
-
-    public Uri getImageNew() {
-        return imageNew;
     }
 
     public String getName() {
@@ -128,10 +129,6 @@ public class Family extends DataSupport {
         }
     }
 
-    public void setImageNew(Uri uri) {
-        imageNew = uri;
-    }
-
     public void setName(Context context, String name) {
         if (name.equals("")) {
             Toast.makeText(context, "Name Is Empty", Toast.LENGTH_SHORT).show();
@@ -140,26 +137,16 @@ public class Family extends DataSupport {
         }
     }
 
-    public boolean setNumber(Context context, final String number) {
+    public boolean setNumber(Context context, String number) {
         if (number.length() == 11) {
             this.number = number;
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    autoLocation(number);
-                    autoWeather(location);
-                }
-            });
+            autoLocation(this.number);
+            autoWeather(location);
             return true;
         } else if (number.length() == 13 && number.substring(0, 3).equals("+86")) {
             this.number = number.substring(3);
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    autoLocation(number);
-                    autoWeather(location);
-                }
-            });
+            autoLocation(number);
+            autoWeather(location);
             return true;
         } else {
             //Toast.makeText(context, "Invalid Number", Toast.LENGTH_SHORT).show();
@@ -193,7 +180,7 @@ public class Family extends DataSupport {
     }
 
     //TODO 调试API
-    public void autoLocation(String number) {
+    private void autoLocation(String number) {
         String phoneAPI = "http://cx.shouji.360.cn/phonearea.php?number=" + this.number;
         HttpUtil.sendOkHttpRequest(phoneAPI, new okhttp3.Callback(){
             @Override
@@ -215,7 +202,7 @@ public class Family extends DataSupport {
         });
     }
     //TODO 调试API
-    public void autoWeather(String location) {
+    private void autoWeather(String location) {
         String weatherAPI = "https://free-api.heweather.com/v5/forecast?city=" + city +
                 "&key= 0344a8b2c5854265b23936acffa1515b";
         HttpUtil.sendOkHttpRequest(weatherAPI, new okhttp3.Callback(){
@@ -226,6 +213,7 @@ public class Family extends DataSupport {
                     JSONObject wth = new JSONObject(responseData);
                     weather = wth.getJSONObject("daily_forecast").getJSONObject("cond")
                             .getString("txt_d");
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
