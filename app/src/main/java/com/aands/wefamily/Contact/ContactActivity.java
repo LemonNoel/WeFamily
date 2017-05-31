@@ -66,7 +66,6 @@ public class ContactActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact);
-        //Intent intent = getIntent();
 
         back = (Button) findViewById(R.id.return_home);
         save = (Button) findViewById(R.id.save_contact);
@@ -81,10 +80,10 @@ public class ContactActivity extends AppCompatActivity {
         Intent intent = getIntent();
         int type = intent.getIntExtra("type", ADD_CONTACT_PERSON);
         final String contact_name = intent.getStringExtra("name");
-        //name.setText(intent.getStringExtra("Name"));
 
         if (type == EDIT_CONTACT_PERSON){
             List<Family> tmpFamily = DataSupport.where("name = ?", contact_name).find(Family.class);
+            save.setEnabled(true);
             if (!tmpFamily.isEmpty()) {
                 family = tmpFamily.get(0);
                 name.setText(family.getName());
@@ -92,7 +91,17 @@ public class ContactActivity extends AppCompatActivity {
                 number.setText(family.getNumber());
                 location.setText(family.getLocation());
                 weather.setText(family.getWeather());
-                photo.setImageResource(family.getImageId());
+                if (family.getImageNew() == null){
+                    photo.setImageResource(family.getImageId());
+                } else {
+                    try {
+                        Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(family.getImageNew()));
+                        photo.setImageBitmap(bitmap);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+
+                    }
+                }
                 delete.setEnabled(true);
             } else {
                 family = new Family();
@@ -162,7 +171,8 @@ public class ContactActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         //相册选取后裁剪，存储的图片
-                        File outputImage3 = new File(Environment.getExternalStorageDirectory(), "output_image3.jpg");
+                        image_name = image_name + 1;
+                        File outputImage3 = new File(Environment.getExternalStorageDirectory(), image_pre + image_name + ".jpg");
                         try {
                             if (outputImage3.exists()) {
                                 outputImage3.delete();
@@ -180,7 +190,8 @@ public class ContactActivity extends AppCompatActivity {
                 });
                 myDialog.setOnPositiveListener(new View.OnClickListener() {
                     public void onClick(View v) {
-                        File outputImage = new File(Environment.getExternalStorageDirectory(), "output_image.jpg");
+                        image_name = image_name + 1;
+                        File outputImage = new File(Environment.getExternalStorageDirectory(), image_pre + image_name + ".jpg");
                         try {
                             if (outputImage.exists()) {
                                 outputImage.delete();
@@ -190,7 +201,8 @@ public class ContactActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                         //拍照后裁剪，存储的图片
-                        File outputImage2 = new File(Environment.getExternalStorageDirectory(), "output_image2.jpg");
+                        image_name = image_name + 1;
+                        File outputImage2 = new File(Environment.getExternalStorageDirectory(), image_pre + image_name + ".jpg");
                         try {
                             if (outputImage2.exists()) {
                                 outputImage2.delete();
@@ -327,6 +339,8 @@ public class ContactActivity extends AppCompatActivity {
                     try {
                         Bitmap bitmap = BitmapFactory.decodeStream(getContext().getContentResolver().openInputStream(imageUri2));
                         photo.setImageBitmap(bitmap); //返回imageView
+                        family.setImageNew(imageUri2);
+                        family.save();
 
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
@@ -343,6 +357,8 @@ public class ContactActivity extends AppCompatActivity {
                     try {
                         Bitmap bitmap = BitmapFactory.decodeStream(getContext().getContentResolver().openInputStream(imageUri3));
                         photo.setImageBitmap(bitmap);// 返回imageView
+                        family.setImageNew(imageUri3);
+                        family.save();
 
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
@@ -398,8 +414,8 @@ public class ContactActivity extends AppCompatActivity {
             Log.d("MainActivity", imagePath);
             Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
             photo.setImageBitmap(bitmap);
-
-//            picture.setImageURI(Uri.parse(imagePath));
+            family.setImageNew(Uri.parse(imagePath));
+            family.save();
 
         } else {
             Toast.makeText(getContext(), "failed to get image", Toast.LENGTH_SHORT).show();

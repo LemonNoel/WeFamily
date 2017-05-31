@@ -27,14 +27,15 @@ public class ListAdapter extends ArrayAdapter<Zhang>  {
     private List<Zhang> mpersonList;
 
 
+
     //点击内部接口
     public interface OnItemClickListener {
         void onItemClick(View view, int position);
     }
 
-    private ListAdapter.OnItemClickListener mOnItemClickListener;
+    private FamilyAdapter.OnItemClickListener mOnItemClickListener;
 
-    public void setOnItemClickListener(ListAdapter.OnItemClickListener mOnItemClickListener) {
+    public void setOnItemClickListener(FamilyAdapter.OnItemClickListener mOnItemClickListener) {
         this.mOnItemClickListener = mOnItemClickListener;
     }
     public ListAdapter(Context context, int textViewResourceId,Zhang[] obj) {

@@ -273,6 +273,7 @@ public class RecordActivity extends AppCompatActivity {
                         Log.d("initRecord", strBody);
 
                         familyList.get(i).addMessage(new Messages(strDate, strBody, intRead, true));
+                        familyList.get(i).save();
                     }
                     Messages tmpMessage = familyList.get(i).getLastMessage();
                     if (tmpMessage != null) {

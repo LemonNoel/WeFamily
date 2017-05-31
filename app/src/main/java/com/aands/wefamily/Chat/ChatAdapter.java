@@ -25,6 +25,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         LinearLayout rightLayout;
         TextView leftMsg;
         TextView rightMsg;
+        TextView msgTime;
 
         public ViewHolder(View view) {
             super(view);
@@ -32,6 +33,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
             rightLayout = (LinearLayout) view.findViewById(R.id.right_layout);
             leftMsg = (TextView) view.findViewById(R.id.left_msg);
             rightMsg = (TextView) view.findViewById(R.id.right_msg);
+            msgTime = (TextView) view.findViewById(R.id.msg_time);
         }
     }
 
