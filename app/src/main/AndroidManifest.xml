@@ -34,7 +34,7 @@
                 <action android:name="com.aands.wefamily.family.CONTACTS"/>
             </intent-filter>
         </activity>
-        <activity android:name=".Contact.ChatActivity"
+        <activity android:name=".Chat.ChatActivity"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="com.aands.wefamily.contact.CHAT"/>

@@ -79,7 +79,7 @@ public class ContactActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         int type = intent.getIntExtra("type", ADD_CONTACT_PERSON);
-        String contact_name = intent.getStringExtra("name");
+        final String contact_name = intent.getStringExtra("name");
 
         if (type == EDIT_CONTACT_PERSON){
             List<Family> tmpFamily = DataSupport.where("name = ?", contact_name).find(Family.class);
@@ -134,7 +134,7 @@ public class ContactActivity extends AppCompatActivity {
                 if (delete.isEnabled()) {
                     final MyDialog myDialog = new MyDialog(getContext(), R.style.MyDialog);//设置自定义背景
                     myDialog.setTitle("删除");
-                    myDialog.setMsg("确认删除" + name + "？");
+                    myDialog.setMsg("确认删除" + contact_name + "？");
                     myDialog.setOnNegateListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

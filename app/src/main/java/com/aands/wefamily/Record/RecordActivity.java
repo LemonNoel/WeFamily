@@ -27,6 +27,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aands.wefamily.Chat.ChatActivity;
 import com.aands.wefamily.Family.Family;
 import com.aands.wefamily.Family.FamilyActivity;
 import com.aands.wefamily.Record.MyDialog;
@@ -59,7 +60,7 @@ public class RecordActivity extends AppCompatActivity {
     }
 
     private static final String[] contactKeyWords = new String[]{
-            "爷", "奶", "爸", "妈", "哥", "姐", "弟", "妹"};
+            "爷", "奶", "爸", "妈", "哥", "姐", "弟", "妹", "王"};
     private static final String[] labelSet = new String[] {
             "祖辈", "父辈", "同辈"};
 
@@ -112,11 +113,7 @@ public class RecordActivity extends AppCompatActivity {
         adapter.setOnItemClickListener(new ChatRecordAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                //TODO 对话界面写好后把语句2换成注释掉的1
-                //Intent intent = new Intent("android.intent.action.CHAT");
-                //intent.putExtra("name", recordsList.get(position).getName());  //1
-                Intent intent = new Intent(getContext(), FamilyActivity.class); //2
-                startActivity(intent);
+                ChatActivity.actionStart(getContext(), recordsList.get(position).getName());
             }
         });
         adapter.setOnItemLongClickListener(new ChatRecordAdapter.OnItemLongClickListener() {
@@ -148,6 +145,7 @@ public class RecordActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        recordsList  = DataSupport.findAll(Records.class);
         Button recordButton = (Button)findViewById(R.id.record_button);
         recordButton.setBackgroundResource(R.drawable.email_filling);
         recordButton.setEnabled(false);
@@ -273,7 +271,7 @@ public class RecordActivity extends AppCompatActivity {
                         Log.d("initRecord", strDate);
                         Log.d("initRecord", strBody);
 
-                        familyList.get(i).addMessage(new Messages(strDate, strBody, intRead, true, intType));
+                        familyList.get(i).addMessage(new Messages(strDate, strBody, intRead, true));
                     }
                     Messages tmpMessage = familyList.get(i).getLastMessage();
                     if (tmpMessage != null) {

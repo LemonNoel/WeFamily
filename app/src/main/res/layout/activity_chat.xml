@@ -7,14 +7,85 @@
     android:layout_height="match_parent">
 
     <!--工具条-->
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_family"
+    <LinearLayout
+        android:id="@+id/title_contact"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+        android:orientation="horizontal"
+        android:background="@color/colorPrimary">
+
+        <Button
+            android:id="@+id/return_home"
+            android:layout_width="@dimen/item_photo_size"
+            android:layout_height="match_parent"
+            android:background="@drawable/back"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textSize="20dp"
+            android:textColor="@color/white"
+            android:text="联系人"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:id="@+id/detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/account"
+            android:layout_gravity="center"
+            android:layout_margin="15dp"/>
+    </LinearLayout>
 
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/msg_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <LinearLayout
+        android:id="@+id/rl_bottom"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:background="@color/colorWindowBackground"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/concern_msg"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/default_portrait"
+            android:layout_marginLeft="@dimen/general_margin"
+            android:layout_gravity="center_vertical"/>
+
+        <EditText
+            android:id="@+id/input_text"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="2dp"
+            android:textSize="16sp"
+            android:maxLines="2" />
+
+        <Button
+            android:id="@+id/send"
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:layout_gravity="center_vertical"
+            android:background="@color/colorPrimaryDark"
+            android:textColor="@color/white"
+            android:text="Send"/>
+
+    </LinearLayout>
 
 </LinearLayout>
