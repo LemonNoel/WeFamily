@@ -66,6 +66,7 @@ public class ContactActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact);
+        //Intent intent = getIntent();
 
         back = (Button) findViewById(R.id.return_home);
         save = (Button) findViewById(R.id.save_contact);
@@ -80,6 +81,7 @@ public class ContactActivity extends AppCompatActivity {
         Intent intent = getIntent();
         int type = intent.getIntExtra("type", ADD_CONTACT_PERSON);
         final String contact_name = intent.getStringExtra("name");
+        //name.setText(intent.getStringExtra("Name"));
 
         if (type == EDIT_CONTACT_PERSON){
             List<Family> tmpFamily = DataSupport.where("name = ?", contact_name).find(Family.class);

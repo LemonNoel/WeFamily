@@ -34,6 +34,8 @@ public class PersonActivity extends AppCompatActivity {
 
     /*public void btnclick(View v){
         Intent intent=new Intent(PersonActivity.this,ContactActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("Name", "大伯");
         startActivity(intent);
     }*/
 
@@ -49,6 +51,15 @@ public class PersonActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_person);
+        /*test = (Button) findViewById(R.id.button_person);
+        test.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent=new Intent(PersonActivity.this,ContactActivity.class);
+                intent.putExtra("Name","大伯");
+                startActivity(intent);
+            }
+        });*/
         Intent intent = getIntent();
         final String name = intent.getStringExtra("name");
         List<Family> tmpList = DataSupport.where("name = ?", name).find(Family.class);
@@ -86,20 +97,6 @@ public class PersonActivity extends AppCompatActivity {
 
         listview.setAdapter(adapter3);
 
-
-        /*Button test = (Button)findViewById(R.id.button_person);
-
-        test.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(PersonActivity.this, ContactActivity.class);
-                startActivity(intent);
-                finish();//停止当前的Activity,如果不写,则按返回键会跳转回原来的Activity
-            }
-
-        });*/
     }
 }
 

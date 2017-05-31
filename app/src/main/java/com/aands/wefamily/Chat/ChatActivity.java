@@ -37,6 +37,7 @@ import static com.aands.wefamily.Constants.EDIT_CONTACT_PERSON;
 public class ChatActivity extends AppCompatActivity {
     private Family familyItem = new Family();
     private EditText inputText;
+    //private EditText contentEditText;
     private Button concernMsg, send, back;
     private ImageView detail;
     private RecyclerView msgRecyclerView;
@@ -70,9 +71,43 @@ public class ChatActivity extends AppCompatActivity {
             concernMsg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                   // TODO 添加关怀短信
-                }
-            });
+                    String text=familyItem.getWeather();
+                        if (!familyItem.getWeather().equals("")) {
+                            //增加关怀短信内容消息,在输入框加入关怀短信
+
+                            /*int temprature_today = 0;//今天的最低温度
+                            int temprature_tomorrow = 0;//明天的最低温度
+
+                            int code_tomorrow = 100;//明天的天气代码
+                            CharSequence text = "晴,";//明天的天气状况描述
+                            CharSequence care1 = "";//温度变化内容
+                            CharSequence care = "";//详细关怀内容
+                            if(temprature_today-temprature_tomorrow>=3){
+                                care1="气温降低明显，";
+                            }*/
+                            CharSequence care = "";
+                            //根据天气状况代码定制关怀短信
+                            if(text.equals("冷")) {//冷
+                                care = "天气较冷，记得及时增添衣物哦！";
+                            }else if(text.equals("热")){//热
+                                care = "天气较热，可适当减少衣物哦！";
+                            }else if(text.equals("中雨")){//雨雪天气
+                                care = "记得出门带上雨伞哦！";
+                            }else if(text.equals("霾")){//雾霾及沙尘暴天气
+                                care = "能见度低，雾霾沙尘天气记得出门戴上口罩哦！";
+                            }else if(text.equals("飓风")){//大风天气及沙尘暴
+                                care = "剧烈天气注意安全，尽量少出门哦！";
+                            }else{
+                                care = "关注天气变化，请注意身体哦！";
+                            }
+
+                            inputText.append("亲爱的"+familyItem.getName() + ", 明天的天气状况为"+ text + care);
+                            //关怀短信样板：亲爱的XXX（标签），明天的天气状况为XX（天气状况描述：如晴），XXXXXXX（关怀短信内容：如关注天气变化，请注意身体哦！）
+                        }else {
+                            Toast.makeText(ChatActivity.this, "天气信息获取错误！", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
 
             detail.setOnClickListener(new View.OnClickListener() {
                 @Override

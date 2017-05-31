@@ -37,7 +37,16 @@ public class Family extends DataSupport {
     private String location;
     private String city;
     private String weather;
+    private String weathercode;
     private List<Messages> messagesList;
+
+    /*private class weather{
+        public int temperature_today;//今日气温
+        public int temperature_tomorrow;//明日气温
+        public String txt;//天气状况描述
+        public int code;//天气状况代码
+    }*/
+
 
     public Family() {
         this.imageId = R.drawable.default_portrait;
@@ -46,6 +55,7 @@ public class Family extends DataSupport {
         this.label = "";
         this.location = "";
         this.weather = "";
+        this.weathercode = "";
         this.messagesList = new ArrayList<>();
     }
 
@@ -203,6 +213,7 @@ public class Family extends DataSupport {
                     JSONObject wth = new JSONObject(responseData);
                     weather = wth.getJSONObject("daily_forecast").getJSONObject("cond")
                             .getString("txt_d");
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
